@@ -1,0 +1,77 @@
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+.npmrc
+.npm/
+.pnp
+.pnp.js
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+.DS_Store
+*.pid
+*.seed
+*.pid.lock
+
+# Build artifacts
+build/
+dist/
+coverage/
+out/
+.next/
+.vercel/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# React specific
+.cache/
+public/*.map
+public/*.hot-update.js
+public/*.hot-update.json
+public/*.hot-update*
+*.ttf
+*.woff
+*.woff2
+*.eot
+*.svg
+*.otf
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+
+# TypeScript
+*.tsbuildinfo
+
+# Editor settings
+.vscode/
+.idea/
+*.iml
+
+# macOS
+.DS_Store
+
+# Linux
+*~
