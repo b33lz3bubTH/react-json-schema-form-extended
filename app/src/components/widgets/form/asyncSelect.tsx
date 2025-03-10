@@ -1,12 +1,10 @@
-
 import React, { useState, useRef } from "react";
 import { Select } from "antd";
 import axios from "axios";
 import { WidgetProps } from "@rjsf/utils";
 import { debounce } from "lodash";
-import { queryParams } from "../../api";
-import { useEffectAsync } from "../../utils/asyncUseEffect";
-
+import { queryParams } from "../../../api";
+import { useEffectAsync } from "../../utils";
 
 interface SelectOptions {
   value: string;
@@ -38,19 +36,19 @@ const AsyncSelectWidget: React.FC<
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const fetchData = async (
-    search: string,
-    take: number,
-    skip: number
+    search: string = "",
+    take: number = 10,
+    skip: number = 0
   ) => {
     try {
       setLoading(true);
-      const response = await axios.get(api({ take, skip, q: search })); // calling the api
-      const data: SelectOptions[] = response.data.results.map((item: any) => ({
-        label: item[labelKey], // name example
-        value: item[valueKey], // _id example
+      const response = await axios.get(api({ take, skip, q: search }));
+      const data: SelectOptions[] = response.data.map((item: any) => ({
+        label: item[labelKey],
+        value: item[valueKey],
       }));
       setLoading(false);
-      setTotal(response.data.total);
+      setTotal(response.data?.total ?? 100);
       return data;
     } catch (error) {
       setLoading(false);
@@ -81,7 +79,7 @@ const AsyncSelectWidget: React.FC<
       const { scrollTop, clientHeight, scrollHeight } = scrollElement;
       if (scrollTop + clientHeight === scrollHeight && options.length < total) {
         const newTake = options.length + 3; // Adjust as needed
-        const newData = await fetchData("", newTake, 0);
+        const newData = await fetchData({}, newTake, 0);
         setOptions((prevOptions) => [...prevOptions, ...newData]);
       }
     }
@@ -91,8 +89,8 @@ const AsyncSelectWidget: React.FC<
     let defaultData: SelectOptions[] = [];
     if (props.formData) {
       const data = await fetchData(
-        props.formData,
-        10, // Example: Default 'take' value
+        "",
+              10, // Example: Default 'take' value
         0 // Example: Default 'skip' value
       );
       defaultData = data;

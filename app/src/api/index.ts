@@ -1,4 +1,3 @@
-
 const baseUrl = `http://localhost:9999`;
 export type queryParams = Record<string, any>;
 
@@ -12,13 +11,11 @@ function generateUrl(baseUrl: string, queryParams?: queryParams): string {
   return baseUrl + (queryString ? `?${queryString}` : "");
 }
 export default {
-  BrandsCreate: (queryParams?: queryParams) =>
+  SellerCreate: (queryParams?: queryParams) =>
     generateUrl(baseUrl + `/brands`, queryParams),
-
-  BrandsList: (queryParams?: queryParams) =>
+  BrandsListing: (queryParams?: queryParams) =>
     generateUrl(baseUrl + `/brands/search`, queryParams),
-
-
+ 
   MediaUpload: (queryParams?: queryParams) =>
-    generateUrl(baseUrl + `/uploads/medias/image`, queryParams),
+    generateUrl(baseUrl + `/media/upload`, queryParams),
 };

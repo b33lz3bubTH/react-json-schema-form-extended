@@ -1,4 +1,3 @@
-
 import { DateTimeWidget } from "./form/date";
 import { EditorField } from "./form/editor";
 import { SelectFieldWidget } from "./form/select";

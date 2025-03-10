@@ -1,14 +1,8 @@
-
 import { Group, Text, useMantineTheme, rem, CloseButton } from "@mantine/core";
 import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
-import {
-  Dropzone,
-  DropzoneProps,
-  FileWithPath,
-  IMAGE_MIME_TYPE,
-} from "@mantine/dropzone";
+import { Dropzone, FileWithPath } from "@mantine/dropzone";
+import { useState } from "react";
 import { WidgetProps } from "@rjsf/utils";
-import { useEffect, useState } from "react";
 import { useId } from "@mantine/hooks";
 
 interface FileObject {
@@ -18,7 +12,7 @@ interface FileObject {
   originalFileName: string;
 }
 
-interface MultiFileUploadProps {
+interface MultiFileUploadProps extends WidgetProps {
   id: string;
   formData: FileObject[];
   uiSchema: {
@@ -46,7 +40,7 @@ function ImageViewer(props: {
       style={{ position: "relative", float: "left" }}
       key={useId(props.idx.toString())}
     >
-      {props?.mime?.startsWith("image") ? (
+      {props.mime.startsWith("image") ? (
         <img
           src={props.url}
           style={{ height: "10vh", margin: 5, objectFit: "contain" }}
@@ -90,15 +84,15 @@ export function FileUploadField(props: MultiFileUploadProps) {
             headers: {
               "x-key": props.uiSchema["ui:options"].apiKey,
             },
-          }
+          },
         ).then((res) => res.json());
-        const mediaUpload = response?.uploaded_data?.[0];
         server_data.push({
-          mime: mediaUpload.mimetype,
-          originalFileName: mediaUpload.originalname,
-          size: mediaUpload.size,
-          url: mediaUpload.Location,
+          mime: response.mimetype,
+          originalFileName: response.originalname,
+          size: response.size,
+          url: response.url,
         });
+        console.log("upload response: ", response);
       }
       const updated_Files = [...files, ...server_data];
       setFiles(updated_Files);
@@ -117,6 +111,7 @@ export function FileUploadField(props: MultiFileUploadProps) {
   };
   return (
     <>
+      <p style={{ fontSize: "22px", fontWeight: 600 }}>{props.schema.title}</p>
       <Dropzone
         onDrop={(files) => handleFileUploads(files)}
         onReject={(files) => console.log("rejected files", files)}

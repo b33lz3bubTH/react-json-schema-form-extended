@@ -3,10 +3,13 @@
 import express, { json, urlencoded } from "express";
 import { config } from "./config";
 import { ControllerInit } from "./controllers";
+import cors from "cors";
 const port = config.PORT;
 const app = express();
 app.use(urlencoded({ extended: true }));
 app.use(json());
+
+app.use(cors());
 app.use(...ControllerInit());
 // Global handler for uncaught exceptions
 process.on("uncaughtException", (error) => {
